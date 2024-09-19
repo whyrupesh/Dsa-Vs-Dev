@@ -1,0 +1,85 @@
+// src/App.js
+//shiptalkers.dev
+
+import React, { useState } from 'react';
+import axios from 'axios';
+import './App.css';
+
+function App() {
+  // State for user input and results
+  const [githubUsername, setGithubUsername] = useState('');
+  const [leetCodeUsername, setLeetCodeUsername] = useState('');
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // Send request to your backend
+      const response = await axios.get(`http://localhost:3000/?username=${leetCodeUsername}`);
+      setResult(response.data);
+    } catch (err) {
+      setError("Error fetching data. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="App">
+    <h1 className="text-3xl font-bold underline">
+      Hello world!
+    </h1>
+      <header className="App-header">
+        <h1>GitHub vs LeetCode Comparison</h1>
+        <form onSubmit={handleSubmit} className="form-container">
+          <div className="form-group">
+            <label htmlFor="githubUsername">GitHub Username:</label>
+            <input
+              type="text"
+              id="githubUsername"
+              value={githubUsername}
+              onChange={(e) => setGithubUsername(e.target.value)}
+              placeholder="Enter GitHub Username"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="leetCodeUsername">LeetCode Username:</label>
+            <input
+              type="text"
+              id="leetCodeUsername"
+              value={leetCodeUsername}
+              onChange={(e) => setLeetCodeUsername(e.target.value)}
+              placeholder="Enter LeetCode Username"
+              required
+            />
+          </div>
+
+          <button type="submit" disabled={loading}>Compare</button>
+        </form>
+
+        {loading && <p>Loading...</p>}
+
+        {error && <p className="error">{error}</p>}
+
+        {result && (
+          <div className="result-container">
+            <h2>Comparison Result:</h2>
+            <p><strong>GitHub Commits:</strong> {result.githubCommits}</p>
+            <p><strong>LeetCode Submissions:</strong> {result.leetCodeSubmissions}</p>
+            <h3>{result.githubCommits > result.leetCodeSubmissions ? "More Development Work" : "More DSA Work"}</h3>
+          </div>
+        )}
+      </header>
+    </div>
+  );
+}
+
+export default App;
