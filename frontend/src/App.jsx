@@ -9,6 +9,7 @@ import HeroSection from "./components/HeroSection";
 import InputUser from "./components/InputUser";
 import ProfileResult from "./components/ProfileResult";
 import BarGraph from "./components/BarGraph";
+import DemoResult from "./components/DemoResult";
 
 function App() {
   return (
@@ -26,6 +27,8 @@ function App() {
         }
       />
       <BarGraph number1={50} number2={100} />
+
+      <DemoResult />
     </>
   );
 }
