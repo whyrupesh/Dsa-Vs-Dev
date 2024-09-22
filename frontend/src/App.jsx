@@ -17,18 +17,6 @@ function App() {
       <Navigation />
       <HeroSection />
       <InputUser />
-
-      <ProfileResult
-        username={"whyrupesh"}
-        submissions={142}
-        commits={488}
-        imgurl={
-          "https://assets.leetcode.com/users/avatars/avatar_1674151562.png"
-        }
-      />
-      <BarGraph number1={50} number2={100} />
-
-      <DemoResult />
     </>
   );
 }

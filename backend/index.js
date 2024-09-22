@@ -4,14 +4,14 @@ const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
-// require('dotenv').config();
+require('dotenv').config();
 
 
-// const token = process.env.GITHUB_TOKEN;
+const token = process.env.GITHUB_TOKEN;
 
 
-// // Enable CORS
-// app.use(cors());
+// Enable CORS
+app.use(cors());
 
 // LeetCode API Call
 async function getLeetCodeSubmissions(username) {

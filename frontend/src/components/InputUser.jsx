@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { FiGithub } from "react-icons/fi";
 import { SiLeetcode } from "react-icons/si";
-import { useState } from "react";
+import axios from "axios";
+import ProfileResult from "./ProfileResult";
 
 export default function InputUser() {
   const [githubUsername, setGithubUsername] = useState("");
@@ -10,9 +11,27 @@ export default function InputUser() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Handle form submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/?githubUsername=${githubUsername}&leetCodeUsername=${leetCodeUsername}`
+      );
+      setResult(response.data);
+    } catch (err) {
+      setError("Error fetching data. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
-      <form action="">
+      <form onSubmit={handleSubmit}>
         <div className="flex flex-col max-w-screen-sm items-center space-y-4">
           <div className="flex space-x-3">
             <div className="flex items-center">
@@ -21,13 +40,11 @@ export default function InputUser() {
             <div>
               <input
                 type="text"
-                id="last_name"
+                id="github_name"
                 className="bg-gray-100 border font-medium border-black text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                placeholder="GitHub Profile Name"
+                placeholder="GitHub Username"
                 value={githubUsername}
-                onChange={(e) => {
-                  setGithubUsername(e.target.value);
-                }}
+                onChange={(e) => setGithubUsername(e.target.value)}
                 required
               />
             </div>
@@ -40,27 +57,43 @@ export default function InputUser() {
             <div>
               <input
                 type="text"
-                id="last_name"
+                id="leetcode_name"
                 className="bg-gray-100 border font-medium border-black text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                placeholder="LeetCode Profile Name"
+                placeholder="LeetCode Username"
                 value={leetCodeUsername}
-                onChange={(e) => {
-                  setLeetCodeUsername(e.target.value);
-                }}
+                onChange={(e) => setLeetCodeUsername(e.target.value)}
                 required
               />
             </div>
           </div>
+
           <div>
             <button
               type="submit"
-              className="text-white bg-black hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
+              className={`text-white bg-black hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={loading}
             >
-              Submit
+              {loading ? "Loading..." : "Submit"}
             </button>
           </div>
+
+          {error && <p className="text-red-500 mt-4">{error}</p>}
         </div>
       </form>
+
+      {/* Display result */}
+      {result && (
+        <ProfileResult
+          username={githubUsername}
+          submissions={result.leetCodeSubmissions}
+          commits={result.githubCommits}
+          imgurl={
+            "https://assets.leetcode.com/users/avatars/avatar_1674151562.png"
+          }
+        />
+      )}
     </>
   );
 }

@@ -4,7 +4,7 @@ const BarGraph = ({ commits, submissions }) => {
   const maxValue = Math.max(commits, submissions);
   const maxHeight = 100;
   return (
-    <div className="flex items-end justify-around  w-20 mx-auto mt-10">
+    <div className="flex items-end justify-around w-20 mx-auto mt-10">
       <div className="flex flex-col items-center">
         {/* GitHub Icon */}
         <img
