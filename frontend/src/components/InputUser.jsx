@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { FiGithub } from "react-icons/fi";
 import { SiLeetcode } from "react-icons/si";
 import axios from "axios";
-import ProfileResult from "./ProfileResult";
+import { useNavigate } from "react-router-dom";
 
 export default function InputUser() {
   const [githubUsername, setGithubUsername] = useState("");
   const [leetCodeUsername, setLeetCodeUsername] = useState("");
-  const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Hook to navigate
 
   // Handle form submit
   const handleSubmit = async (e) => {
@@ -18,10 +18,10 @@ export default function InputUser() {
     setError(null);
 
     try {
-      const response = await axios.get(
-        `http://localhost:3000/?githubUsername=${githubUsername}&leetCodeUsername=${leetCodeUsername}`
+      // Navigate to the profile result page with query parameters
+      navigate(
+        `/profile?githubUsername=${githubUsername}&leetCodeUsername=${leetCodeUsername}`
       );
-      setResult(response.data);
     } catch (err) {
       setError("Error fetching data. Please try again.");
     } finally {
@@ -82,18 +82,6 @@ export default function InputUser() {
           {error && <p className="text-red-500 mt-4">{error}</p>}
         </div>
       </form>
-
-      {/* Display result */}
-      {result && (
-        <ProfileResult
-          username={githubUsername}
-          submissions={result.leetCodeSubmissions}
-          commits={result.githubCommits}
-          imgurl={
-            "https://assets.leetcode.com/users/avatars/avatar_1674151562.png"
-          }
-        />
-      )}
     </>
   );
 }

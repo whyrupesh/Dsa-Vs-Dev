@@ -10,13 +10,18 @@ import InputUser from "./components/InputUser";
 import ProfileResult from "./components/ProfileResult";
 import BarGraph from "./components/BarGraph";
 import DemoResult from "./components/DemoResult";
+import Home from "./components/Home";
+import ProfileResultPage from "./components/ProfileResultPage";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
     <>
       <Navigation />
-      <HeroSection />
-      <InputUser />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<ProfileResultPage />} />
+      </Routes>
     </>
   );
 }
