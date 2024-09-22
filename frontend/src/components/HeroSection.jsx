@@ -8,22 +8,23 @@ export default function HeroSection() {
     <div className="flex items-center justify-center">
       <div className="flex flex-col w-full max-w-screen-sm items-center justify-center gap-4 py-4">
         {/* icons */}
-        <div className="flex justify-between">
-          <div>
-            <FiGithub size={60} />
-          </div>
+        <div className="flex justify-between mt-20">
+          <img className="w-14" src="./public/github.svg" alt="github icon" />
           <div className="flex items-center">
+            <img src="" alt="" />
             <IoCodeSlash size={20} className="m-5" />
           </div>
-          <div>
-            <SiLeetcode size={60} />
-          </div>
+          <img
+            className="w-14"
+            src="./public/leetcode.svg"
+            alt="leetcode img"
+          />
         </div>
         {/* title */}
-        <div>CompareCode</div>
-        <p className="w-3/4 text-center">
+        <div className="font-bold">DSA-vs-DEV</div>
+        <p className="w-3/4 text-center text-gray-600 ">
           Find out whether you spend more time making cool projects or solving
-          problems on leetcode
+          problems on leetcode.
         </p>
       </div>
     </div>

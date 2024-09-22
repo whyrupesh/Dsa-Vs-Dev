@@ -1,3 +1,4 @@
+//card
 import React from "react";
 import BarGraph from "./BarGraph";
 import { FiTwitter, FiClipboard } from "react-icons/fi"; // Using React Icons
@@ -23,7 +24,7 @@ export default function ProfileResult({
 
   return (
     <>
-      <div className="border rounded-xl p-4 shadow-lg bg-white max-w-lg mx-auto">
+      <div className="border rounded-xl p-4 shadow-lg bg-white w-11/12  md:max-w-lg mx-auto">
         <div className="flex justify-between items-center mb-4">
           <div className="flex space-x-4 items-center">
             {/* Profile Image */}
@@ -37,12 +38,21 @@ export default function ProfileResult({
             {/* Username and Stats */}
             <div>
               <div className="font-bold text-lg">{username}</div>
-              <div className="text-gray-500">{commits} commits</div>
-              <div className="text-gray-500">{submissions} submissions</div>
+              <div className="text-gray-500 flex">
+                {" "}
+                <img className="w-5 mr-2" src="./public/github.svg" alt="" />
+                {commits} commits
+              </div>
+              <div className="text-gray-500 flex">
+                <img className="w-5 mr-2" src="./public/leetcode.svg" alt="" />
+                {submissions} submissions
+              </div>
             </div>
           </div>
           {/* Bar Graph */}
-          <BarGraph commits={commits} submissions={submissions} />
+          <div className="items-end mr-3">
+            <BarGraph commits={commits} submissions={submissions} />
+          </div>
         </div>
 
         {/* Comparison Text */}

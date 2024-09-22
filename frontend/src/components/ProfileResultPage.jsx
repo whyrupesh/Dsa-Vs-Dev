@@ -42,13 +42,14 @@ export default function ProfileResultPage() {
   return (
     <div className="max-w-screen-md mx-auto mt-8">
       <h1 className="text-2xl font-bold mb-4 text-center">
-        Profile Results for {githubUsername}
+        CompareCode Result for {githubUsername}
       </h1>
 
       {loading && <p className="text-center">Loading...</p>}
       {error && <p className="text-red-500 text-center">{error}</p>}
 
       {result && (
+        // card
         <ProfileResult
           username={githubUsername}
           submissions={result.leetCodeSubmissions}

@@ -6,7 +6,11 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-      <InputUser />
+      <div className="flex">
+        <div className="ml-auto mr-auto">
+          <InputUser />
+        </div>
+      </div>
     </>
   );
 }
