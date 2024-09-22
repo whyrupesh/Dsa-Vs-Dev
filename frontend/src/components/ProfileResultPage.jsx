@@ -54,9 +54,7 @@ export default function ProfileResultPage() {
           username={githubUsername}
           submissions={result.leetCodeSubmissions}
           commits={result.githubCommits}
-          imgurl={
-            "https://assets.leetcode.com/users/avatars/avatar_1674151562.png"
-          } // Static example, can change dynamically if needed
+          imgurl={`https://avatars.githubusercontent.com/${githubUsername}`}
         />
       )}
     </div>

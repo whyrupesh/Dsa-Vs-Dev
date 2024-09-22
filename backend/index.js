@@ -28,7 +28,7 @@ async function getLeetCodeSubmissions(username) {
 // GitHub API Call - Get number of commits in a repo
 async function getNumOfCommits(githubUsername, repo) {
   try {
-    const response = await axios.get(`https://api.github.com/repos/${githubUsername}/${repo}/commits?per_page=10`, {
+    const response = await axios.get(`https://api.github.com/repos/${githubUsername}/${repo}/commits?per_page=10000`, {
       headers: {
         'Authorization': `Bearer ${token}` // Use 'Bearer' format
       }
