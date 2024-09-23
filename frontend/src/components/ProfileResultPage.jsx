@@ -8,6 +8,8 @@ const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
 
+// backend site :-  https://dsa-vs-dev-production.up.railway.app/   || http://localhost:3000/
+
 export default function ProfileResultPage() {
   const query = useQuery();
   const githubUsername = query.get("githubUsername");
@@ -24,7 +26,7 @@ export default function ProfileResultPage() {
 
       try {
         const response = await axios.get(
-          `http://localhost:3000/?githubUsername=${githubUsername}&leetCodeUsername=${leetCodeUsername}`
+          `https://dsa-vs-dev-production.up.railway.app/?githubUsername=${githubUsername}&leetCodeUsername=${leetCodeUsername}`
         );
         setResult(response.data);
       } catch (err) {
