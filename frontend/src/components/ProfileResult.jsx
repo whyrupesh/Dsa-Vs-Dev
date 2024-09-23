@@ -40,11 +40,11 @@ export default function ProfileResult({
               <div className="font-bold text-lg">{username}</div>
               <div className="text-gray-500 flex">
                 {" "}
-                <img className="w-5 mr-2" src="./public/github.svg" alt="" />
+                <img className="w-5 mr-2" src="./github.svg" alt="" />
                 {commits} commits
               </div>
               <div className="text-gray-500 flex">
-                <img className="w-5 mr-2" src="./public/leetcode.svg" alt="" />
+                <img className="w-5 mr-2" src="./leetcode.svg" alt="" />
                 {submissions} submissions
               </div>
             </div>
