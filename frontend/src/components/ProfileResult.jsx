@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 import BarGraph from "./BarGraph";
 import { FiTwitter, FiClipboard, FiDownload } from "react-icons/fi"; // Using React Icons
 import * as htmlToImage from "html-to-image";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ProfileResult({
   username,
@@ -22,7 +24,17 @@ export default function ProfileResult({
       await navigator.clipboard.write([
         new ClipboardItem({ "image/png": blob }),
       ]);
-      alert("Profile card copied as image!");
+      toast.success("Copied to Clipboard!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
     } catch (err) {
       console.error("Error copying image to clipboard", err);
       alert("Failed to copy the image.");
@@ -171,6 +183,19 @@ export default function ProfileResult({
             Download Image
           </button>
         </div>
+        <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition:Slide
+        />
       </div>
     </>
   );
