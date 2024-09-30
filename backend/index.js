@@ -1,16 +1,12 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 require('dotenv').config();
 
-
 const token = process.env.GITHUB_TOKEN;
 
-
-// Enable CORS
 app.use(cors());
 
 // LeetCode API Call
@@ -28,9 +24,9 @@ async function getLeetCodeSubmissions(username) {
 // GitHub API Call - Get number of commits in a repo
 async function getNumOfCommits(githubUsername, repo) {
   try {
-    const response = await axios.get(`https://api.github.com/repos/${githubUsername}/${repo}/commits?per_page=10000`, {
+    const response = await axios.get(`https://api.github.com/repos/${githubUsername}/${repo}/commits?per_page=100`, {
       headers: {
-        'Authorization': `Bearer ${token}` // Use 'Bearer' format
+        'Authorization': `Bearer ${token}`
       }
     });
     return response.data.length;
@@ -40,25 +36,18 @@ async function getNumOfCommits(githubUsername, repo) {
   }
 }
 
-// Get total number of commits across all repositories using parallel requests
 async function getAllCommits(githubUsername) {
   try {
+    console.log("api hit");
     const response = await axios.get(`https://api.github.com/users/${githubUsername}/repos`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     });
     const repos = response.data;
-
-    // Create an array of promises to get commit counts for all repos concurrently
     const commitPromises = repos.map(repo => getNumOfCommits(githubUsername, repo.name));
-
-    // Wait for all promises to resolve
     const commitsArray = await Promise.all(commitPromises);
-
-    // Calculate total commits
     const totalCommits = commitsArray.reduce((sum, commits) => sum + commits, 0);
-
     return totalCommits;
   } catch (error) {
     console.error('Error fetching repositories:', error.response ? error.response.data : error.message);
@@ -66,20 +55,36 @@ async function getAllCommits(githubUsername) {
   }
 }
 
-// Main route handler
 app.get('/', async (req, res) => {
   try {
-    const githubUsername = req.query.githubUsername; // Get GitHub username from query param
-    const leetCodeUsername = req.query.leetCodeUsername; // Get LeetCode username from query param
+    const githubUsername = req.query.githubUsername;
+    const leetCodeUsername = req.query.leetCodeUsername;
 
     if (!githubUsername || !leetCodeUsername) {
       return res.status(400).json({ error: "Both GitHub and LeetCode usernames are required." });
     }
 
+    // Check for If-None-Match header to see if the client already has the cached version
+    const clientETag = req.headers['if-none-match'];
+
+    // Simulating a hash-based ETag
+    const uniqueIdentifier = `${githubUsername}-${leetCodeUsername}`;
+    const currentETag = `W/"${Buffer.from(uniqueIdentifier).toString('base64')}"`;
+
+    if (clientETag === currentETag) {
+      // ETag matches, return 304 Not Modified
+      return res.status(304).end();
+    }
+
+    // Fetch data from GitHub and LeetCode
     const [leetCodeSubmissions, githubCommits] = await Promise.all([
       getLeetCodeSubmissions(leetCodeUsername),
       getAllCommits(githubUsername)
     ]);
+
+    // Set ETag in the response and cache headers
+    res.set('ETag', currentETag);
+    res.set('Cache-Control', 'public, max-age=60'); // Cache for 60 seconds
 
     res.json({
       leetCodeSubmissions,
@@ -98,4 +103,3 @@ app.listen(PORT, (error) => {
     console.error("Error occurred, server can't start", error);
   }
 });
-
