@@ -44,7 +44,7 @@ export default function InputUser() {
                 className="bg-gray-100 border font-medium border-black text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 placeholder="GitHub Username"
                 value={githubUsername}
-                onChange={(e) => setGithubUsername(e.target.value)}
+                onChange={(e) => setGithubUsername(e.target.value.trim())}
                 required
               />
             </div>
@@ -61,7 +61,7 @@ export default function InputUser() {
                 className="bg-gray-100 border font-medium border-black text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 placeholder="LeetCode Username"
                 value={leetCodeUsername}
-                onChange={(e) => setLeetCodeUsername(e.target.value)}
+                onChange={(e) => setLeetCodeUsername(e.target.value.trim())}
                 required
               />
             </div>
