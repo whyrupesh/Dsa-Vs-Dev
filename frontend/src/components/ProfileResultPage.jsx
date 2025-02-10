@@ -26,7 +26,9 @@ export default function ProfileResultPage() {
 
       try {
         const response = await axios.get(
-          `https://dsa-vs-dev-production.up.railway.app/?githubUsername=${githubUsername}&leetCodeUsername=${leetCodeUsername}`
+          //`https://dsa-vs-dev-production.up.railway.app/?githubUsername=${githubUsername}&leetCodeUsername=${leetCodeUsername}`
+          //`http://localhost:3000/?githubUsername=${githubUsername}&leetCodeUsername=${leetCodeUsername}`
+          `https://dsa-vs-dev.onrender.com/?githubUsername=${githubUsername}&leetCodeUsername=${leetCodeUsername}`
         );
         setResult(response.data);
       } catch (err) {
