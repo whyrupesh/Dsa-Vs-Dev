@@ -1,6 +1,8 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
+
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 require('dotenv').config();
@@ -54,6 +56,10 @@ async function getAllCommits(githubUsername) {
     throw new Error('GitHub API failed');
   }
 }
+
+app.get('/hello', async(req,res)=>{
+  res.send("OK");
+})
 
 app.get('/', async (req, res) => {
   try {
