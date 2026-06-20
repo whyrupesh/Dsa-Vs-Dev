@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  // Only this schema is managed by Prisma — "public" (which holds unrelated
+  // tables from other projects sharing this database) is deliberately left
+  // out so `db push`/`migrate` can never diff or drop anything there.
+  schemas  = ["comparecode"]
+}
+
+model Search {
+  id               BigInt   @id @default(autoincrement())
+  githubUsername   String   @map("github_username")
+  leetcodeUsername String   @map("leetcode_username")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  @@map("searches")
+  @@schema("comparecode")
+}

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { after } from "next/server";
 import Link from "next/link";
 import { getProfile, ProfileNotFoundError, type Profile } from "@/lib/profile";
+import { logSearch } from "@/lib/logSearch";
 import { ResultView } from "@/components/ResultView";
 
 interface Params {
@@ -26,6 +28,8 @@ export default async function ResultPage({
   params: Promise<Params>;
 }) {
   const { github, leetcode } = await params;
+
+  after(() => logSearch(github, leetcode));
 
   let profile: Profile | null = null;
   let errorMessage: string | null = null;
