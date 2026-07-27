@@ -17,6 +17,24 @@ model Search {
   leetcodeUsername String   @map("leetcode_username")
   createdAt        DateTime @default(now()) @map("created_at")
 
+  // Set once the profile fetch succeeds; left null on lookup failures
+  // (e.g. username not found) since there are no stats to record.
+  githubTotalContributions Int?    @map("github_total_contributions")
+  githubCurrentStreak      Int?    @map("github_current_streak")
+  githubTotalStars         Int?    @map("github_total_stars")
+  githubRepoCount          Int?    @map("github_repo_count")
+  githubTopLanguage        String? @map("github_top_language")
+
+  leetcodeRanking       Int? @map("leetcode_ranking")
+  leetcodeTotalSolved   Int? @map("leetcode_total_solved")
+  leetcodeEasySolved    Int? @map("leetcode_easy_solved")
+  leetcodeMediumSolved  Int? @map("leetcode_medium_solved")
+  leetcodeHardSolved    Int? @map("leetcode_hard_solved")
+
+  shipPercent  Int?    @map("ship_percent")
+  solvePercent Int?    @map("solve_percent")
+  verdict      String? @map("verdict")
+
   @@map("searches")
   @@schema("comparecode")
 }

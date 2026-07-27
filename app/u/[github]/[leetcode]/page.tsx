@@ -29,8 +29,6 @@ export default async function ResultPage({
 }) {
   const { github, leetcode } = await params;
 
-  after(() => logSearch(github, leetcode));
-
   let profile: Profile | null = null;
   let errorMessage: string | null = null;
 
@@ -44,6 +42,8 @@ export default async function ResultPage({
         ? `We couldn't find the ${field === "github" ? "GitHub" : "LeetCode"} username "${missingUsername}".`
         : "Something went wrong fetching these stats. Please try again in a moment.";
   }
+
+  after(() => logSearch(github, leetcode, profile));
 
   if (errorMessage || !profile) {
     return (
